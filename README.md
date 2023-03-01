@@ -2,7 +2,7 @@
 
 ![logo](https://user-images.githubusercontent.com/7910769/221990786-c1de6c7f-d8cd-40bf-b3fd-d5d279676fb8.png)
 
-OpenAI repository contains Swift implementation over [OpenAI public API](https://beta.openai.com/docs/api-reference/) used to get output data from DALL-E and GPT-3 models.
+OpenAI is a community-maintained repository containing Swift implementation over [OpenAI public API](https://platform.openai.com/docs/api-reference/).
 
 ## Overview
 The OpenAI API can be applied to virtually any task that involves understanding or generating natural language or code. We offer a spectrum of models with different levels of power suitable for different tasks, as well as the ability to fine-tune your own custom models. These models can be used for everything from content generation to semantic search and classification.
