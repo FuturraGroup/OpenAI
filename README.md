@@ -30,6 +30,10 @@ dependencies: [
 ]
 ```
 
+## Contribute
+
+Contributions for improvements are welcomed. Feel free to submit a pull request to help grow the library. If you have any questions, feature suggestions, or bug reports, please send them to [Issues](https://github.com/futurragroup/OpenAI/issues).
+
 ## License
 
 ```
