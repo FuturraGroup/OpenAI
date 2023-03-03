@@ -26,13 +26,13 @@ Once you have your Swift package set up, adding OpenAI as a dependency is as eas
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/futurragroup/OpenAI.git", .branch("main"))
+    .package(url: "https://github.com/FuturraGroup/OpenAI.git", .branch("main"))
 ]
 ```
 
 ## Contribute
 
-Contributions for improvements are welcomed. Feel free to submit a pull request to help grow the library. If you have any questions, feature suggestions, or bug reports, please send them to [Issues](https://github.com/futurragroup/OpenAI/issues).
+Contributions for improvements are welcomed. Feel free to submit a pull request to help grow the library. If you have any questions, feature suggestions, or bug reports, please send them to [Issues](https://github.com/FuturraGroup/OpenAI/issues).
 
 ## License
 
