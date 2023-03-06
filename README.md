@@ -1,6 +1,7 @@
 # OpenAI
 
 ![logo](https://user-images.githubusercontent.com/7910769/221990786-c1de6c7f-d8cd-40bf-b3fd-d5d279676fb8.png)
+![Swift Workflow](https://github.com/FuturraGroup/OpenAI/actions/workflows/swift.yml/badge.svg)
 [![Swift](https://img.shields.io/badge/Swift%20Compatibility-5.5%20%7C%205.6%20%7C%205.7-orange)](https://img.shields.io/badge/Swift%20Compatibility-5.5%20%7C%205.6%20%7C%205.7-orange)
 [![Platform](https://img.shields.io/badge/Platform%20Compatibility-iOS%20%7C%20macOS%20%7C%20tvOS%20%7C%20watchOS-blue)](https://img.shields.io/badge/Platform%20Compatibility-iOS%20%7C%20macOS%20%7C%20tvOS%20%7C%20watchOS-blue)
 [![licence](https://img.shields.io/badge/%20licence-MIT-green)](https://img.shields.io/badge/%20licence-MIT-green)
