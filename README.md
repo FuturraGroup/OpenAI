@@ -73,6 +73,7 @@ openAI.sendCompletion(prompt: "Hello!", model: .gptV3_5(.gptTurbo), maxTokens: 2
 ### Generate Image
 
 [DALL·E](https://platform.openai.com/docs/models/dall-e) is a AI system that can create realistic images and art from a description in natural language. We currently support the ability, given a prommpt, to create a new image with a certain size, edit an existing image, or create variations of a user provided image.
+
 The code below demonstrates how you can generate an image using DALL·E:
 
 ```swift
