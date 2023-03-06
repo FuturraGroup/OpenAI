@@ -34,6 +34,67 @@ dependencies: [
 ]
 ```
 
+## Usage
+
+It is encouraged to use environment variables to inject the [OpenAI API key](https://platform.openai.com/account/api-keys), instead of hardcoding it in the source code. This is shown in our [Example project](https://github.com/FuturraGroup/OpenAI/tree/main/Example).
+
+```swift
+let apiToken: String = "<Your OpenAI API Token here>"
+let organizationName: String = "<Your OpenAI Organization name>"
+```
+Initialize `OpenAIKit` with your API Token wherever convenient in your project. Organization name is optional.
+
+```swift
+import OpenAIKit
+
+public let openAI = OpenAIKit(apiToken: apiToken, organization: organizationName)
+```
+Create a call to the completions API, passing in a text prompt.
+
+```swift
+openAI.sendCompletion(prompt: "Hello!", model: .gptV3_5(.gptTurbo), maxTokens: 2048) { [weak self] result in
+    
+    switch result {
+    case .success(let aiResult):
+        DispatchQueue.main.async {
+            if let text = aiResult.choices.first?.text {
+                print("response text: \(text)") //"\n\nHello there, how may I assist you today?"
+            }
+        }
+    case .failure(let error):
+        DispatchQueue.main.async { [weak self] in
+            let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default))
+            self?.present(alert, animated: true)
+        }
+    }
+}
+```
+### Generate Image
+
+[DALL·E](https://platform.openai.com/docs/models/dall-e) is a AI system that can create realistic images and art from a description in natural language. We currently support the ability, given a prommpt, to create a new image with a certain size, edit an existing image, or create variations of a user provided image.
+The code below demonstrates how you can generate an image using DALL·E:
+
+```swift
+openAI.sendImagesRequest(prompt: "bird", size: .size512, n: 1) { [weak self] result in
+    
+    switch result {
+    case .success(let aiResult):
+        
+        DispatchQueue.main.async {
+            if let urlString = aiResult.data.first?.url {
+                print("generated image url: \(urlString)")
+            }
+        }
+    case .failure(let error):
+        DispatchQueue.main.async { [weak self] in
+            let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default))
+            self?.present(alert, animated: true)
+        }
+    }
+}
+```
 ## Contribute
 
 Contributions for improvements are welcomed. Feel free to submit a pull request to help grow the library. If you have any questions, feature suggestions, or bug reports, please send them to [Issues](https://github.com/FuturraGroup/OpenAI/issues).
