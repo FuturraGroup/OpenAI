@@ -1,0 +1,25 @@
+PODS:
+  - OpenAIKit (0.1.0)
+  - SDWebImage (5.15.4):
+    - SDWebImage/Core (= 5.15.4)
+  - SDWebImage/Core (5.15.4)
+
+DEPENDENCIES:
+  - OpenAIKit (from `../`)
+  - SDWebImage
+
+SPEC REPOS:
+  trunk:
+    - SDWebImage
+
+EXTERNAL SOURCES:
+  OpenAIKit:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  OpenAIKit: 224905fd47575fcd3b2aafc4a229da37299ae6f6
+  SDWebImage: 1c39de67663e5eebb2f41324d5d580eeea12dd4c
+
+PODFILE CHECKSUM: 14cb438400b969c56f333517c46fa41b611026f0
+
+COCOAPODS: 1.11.3

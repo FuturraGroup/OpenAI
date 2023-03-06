@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="qMs-tc-pUY">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Tab Bar Controller-->
+        <scene sceneID="dqz-Zj-G7f">
+            <objects>
+                <tabBarController id="qMs-tc-pUY" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="7bv-gA-wjl">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="viewControllers" id="vvd-7N-l5W"/>
+                        <segue destination="uGs-Rd-Ss6" kind="relationship" relationship="viewControllers" id="uaT-wM-AMU"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Egp-dF-cJE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1484" y="-303"/>
+        </scene>
+        <!--Completions-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModule="OpenAIKit_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
+                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="aqD-ak-Csq">
+                                <rect key="frame" x="20" y="16" width="335" height="586"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Question to OpenAI " textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5V2-6C-Ri2">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="34"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="21T-6D-0Ns"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="06B-QS-o1J">
+                                        <rect key="frame" x="0.0" y="50" width="335" height="480"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QNA-I2-9y8">
+                                        <rect key="frame" x="37.5" y="546" width="260" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="260" id="Ecp-W5-s4z"/>
+                                            <constraint firstAttribute="height" constant="40" id="tbA-Oj-VPp"/>
+                                        </constraints>
+                                        <color key="tintColor" systemColor="systemOrangeColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Send Question">
+                                            <color key="titleColor" systemColor="systemOrangeColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="sendQuestion" destination="vXZ-lx-hvc" eventType="touchUpInside" id="yN0-LL-5yj"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="06B-QS-o1J" firstAttribute="width" secondItem="aqD-ak-Csq" secondAttribute="width" id="5An-Yf-VdO"/>
+                                    <constraint firstItem="5V2-6C-Ri2" firstAttribute="width" secondItem="aqD-ak-Csq" secondAttribute="width" id="cxU-j0-2TG"/>
+                                </constraints>
+                            </stackView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="vd3-wi-caP">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <color key="color" systemColor="systemOrangeColor"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="aqD-ak-Csq" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="16" id="5j2-dr-JpY"/>
+                            <constraint firstItem="aqD-ak-Csq" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="BIN-eV-XXW"/>
+                            <constraint firstAttribute="trailing" secondItem="aqD-ak-Csq" secondAttribute="trailing" constant="20" id="Icw-ZD-J3e"/>
+                            <constraint firstItem="vd3-wi-caP" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="OAr-7l-WUI"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="aqD-ak-Csq" secondAttribute="bottom" constant="16" id="XPi-oV-E2B"/>
+                            <constraint firstItem="vd3-wi-caP" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="jZ4-5p-yQE"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Completions" image="pencil.circle" catalog="system" selectedImage="pencil.circle.fill" id="WfO-yI-GVd"/>
+                    <connections>
+                        <outlet property="bottomOffset" destination="XPi-oV-E2B" id="OAK-Ts-soc"/>
+                        <outlet property="loader" destination="vd3-wi-caP" id="aOl-wL-adC"/>
+                        <outlet property="sendBtn" destination="QNA-I2-9y8" id="MI1-S7-hE9"/>
+                        <outlet property="textField" destination="5V2-6C-Ri2" id="r9o-gg-PEU"/>
+                        <outlet property="textView" destination="06B-QS-o1J" id="c7e-pD-sYn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1876" y="545"/>
+        </scene>
+        <!--Images-->
+        <scene sceneID="UAl-LN-bgt">
+            <objects>
+                <viewController id="uGs-Rd-Ss6" customClass="ViewControllerImages" customModule="OpenAIKit_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eq9-An-L1O"/>
+                        <viewControllerLayoutGuide type="bottom" id="38f-ZP-Sw0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="78S-hy-Wap">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Ttu-X0-hLZ">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <color key="color" systemColor="systemOrangeColor"/>
+                            </activityIndicatorView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="YSO-Xb-Xxy">
+                                <rect key="frame" x="36" y="16" width="303" height="586"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Description for image draw" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YjY-Oa-tyQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="303" height="34"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="lEu-iA-UpO"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xTc-Pf-xrG">
+                                        <rect key="frame" x="0.0" y="35" width="303" height="510"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ziK-Ib-KCJ">
+                                        <rect key="frame" x="101" y="546" width="101" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="KAn-8l-0S2"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="hxn-oK-Tw0"/>
+                                        </constraints>
+                                        <color key="tintColor" systemColor="systemOrangeColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Send Question">
+                                            <color key="titleColor" systemColor="systemOrangeColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="sendQuestion" destination="uGs-Rd-Ss6" eventType="touchUpInside" id="QWi-9C-CsR"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="xTc-Pf-xrG" firstAttribute="width" secondItem="YSO-Xb-Xxy" secondAttribute="width" id="4k9-9J-goI"/>
+                                    <constraint firstItem="YjY-Oa-tyQ" firstAttribute="width" secondItem="YSO-Xb-Xxy" secondAttribute="width" id="cHU-eQ-Jh6"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="YSO-Xb-Xxy" secondAttribute="trailing" constant="20" id="TEj-RO-MGe"/>
+                            <constraint firstItem="YSO-Xb-Xxy" firstAttribute="leading" secondItem="78S-hy-Wap" secondAttribute="leadingMargin" constant="20" id="dra-iO-OhP"/>
+                            <constraint firstItem="YSO-Xb-Xxy" firstAttribute="top" secondItem="eq9-An-L1O" secondAttribute="bottom" constant="16" id="mBy-cS-fhI"/>
+                            <constraint firstItem="Ttu-X0-hLZ" firstAttribute="centerY" secondItem="78S-hy-Wap" secondAttribute="centerY" id="owy-WQ-Sh6"/>
+                            <constraint firstItem="38f-ZP-Sw0" firstAttribute="top" secondItem="YSO-Xb-Xxy" secondAttribute="bottom" constant="16" id="sxx-zF-nSt"/>
+                            <constraint firstItem="Ttu-X0-hLZ" firstAttribute="centerX" secondItem="78S-hy-Wap" secondAttribute="centerX" id="xDb-Js-71p"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Images" landscapeImage="photo.artframe" catalog="system" selectedImage="photo.artframe" id="Wh8-oQ-VRM"/>
+                    <connections>
+                        <outlet property="bottomOffset" destination="sxx-zF-nSt" id="ds6-0p-xVX"/>
+                        <outlet property="imageView" destination="xTc-Pf-xrG" id="Eru-yp-TXN"/>
+                        <outlet property="loader" destination="Ttu-X0-hLZ" id="JB8-tW-jSx"/>
+                        <outlet property="sendBtn" destination="ziK-Ib-KCJ" id="BrE-lS-0Bp"/>
+                        <outlet property="textField" destination="YjY-Oa-tyQ" id="vtx-9P-ryJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iFL-PY-BSS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-962.39999999999998" y="544.67766116941539"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="pencil.circle" catalog="system" width="128" height="123"/>
+        <image name="pencil.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="photo.artframe" catalog="system" width="128" height="93"/>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
