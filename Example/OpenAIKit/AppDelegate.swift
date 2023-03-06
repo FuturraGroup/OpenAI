@@ -13,7 +13,7 @@ let apiToken: String = "<Your OpenAI API Token here>"
 let organizationName: String = "<Your OpenAI Organization name>"
 
 /// Initialize OpenAIKit with your API Token wherever convenient in your project. Organization name is optional.
-public let openAI = OpenAIKit(apiToken: apiToken, organizationName: organizationName)
+public let openAI = OpenAIKit(apiToken: apiToken, organization: organizationName)
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
