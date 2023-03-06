@@ -9,9 +9,11 @@
 import OpenAIKit
 import UIKit
 
+let apiToken: String = "<Your OpenAI API Token here>"
+let organizationName: String = "<Your OpenAI Organization name>"
 
-/// Initialize OpenAIKit with your API Token wherever convenient in your project.
-public let openAI = OpenAIKit(apiToken: "<Your OpenAI API Token here>")
+/// Initialize OpenAIKit with your API Token wherever convenient in your project. Organization name is optional.
+public let openAI = OpenAIKit(apiToken: apiToken, organizationName: organizationName)
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
