@@ -70,6 +70,21 @@ openAI.sendCompletion(prompt: "Hello!", model: .gptV3_5(.gptTurbo), maxTokens: 2
     }
 }
 ```
+Also supports async/await usage for all methods.
+```swift
+let result = await openAI.sendCompletion(prompt: "Hello!", model: .gptV3_5(.gptTurbo), maxTokens: 2048)
+
+switch result {
+case .success(let aiResult):
+ /// Hadle success response result
+    if let text = aiResult.choices.first?.text {
+  print("response text: \(text)") //"\n\nHello there, how may I assist you today?"       
+    }
+case .failure(let error):
+ /// Hadle error actions
+    print(error.localizedDescription)
+}
+```
 ### Generate Image
 
 [DALL·E](https://platform.openai.com/docs/models/dall-e) is a AI system that can create realistic images and art from a description in natural language. We currently support the ability, given a prommpt, to create a new image with a certain size, edit an existing image, or create variations of a user provided image.
