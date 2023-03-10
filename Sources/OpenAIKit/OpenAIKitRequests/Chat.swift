@@ -8,8 +8,8 @@
 import Foundation
 
 public extension OpenAIKit {
-	func sendChatCompletion(newMessage: AIResponseModel.AIMessage,
-	                        previousMessages: [AIResponseModel.AIMessage] = [],
+	func sendChatCompletion(newMessage: AIMessage,
+	                        previousMessages: [AIMessage] = [],
 	                        model: AIModelType,
 	                        maxTokens: Int?,
 	                        temperature: Double = 1,
@@ -38,8 +38,8 @@ public extension OpenAIKit {
 
 	@available(swift 5.5)
 	@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-	func sendChatCompletion(newMessage: AIResponseModel.AIMessage,
-	                        previousMessages: [AIResponseModel.AIMessage] = [],
+	func sendChatCompletion(newMessage: AIMessage,
+	                        previousMessages: [AIMessage] = [],
 	                        model: AIModelType,
 	                        maxTokens: Int?,
 	                        temperature: Double = 1,

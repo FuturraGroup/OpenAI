@@ -10,7 +10,7 @@ import Foundation
 public struct ChatCompletionsModels: Codable {
 	public let model: AIModelType
 
-	public let messages: [AIResponseModel.AIMessage]
+	public let messages: [AIMessage]
 	
 	public var temperature: Double? = nil
 	
