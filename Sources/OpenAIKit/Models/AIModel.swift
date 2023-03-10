@@ -86,7 +86,7 @@ public struct AIMessage: Codable {
 	let role: AIMessageRole
 	let content: String
 
-	init(role: AIMessageRole, content: String) {
+	public init(role: AIMessageRole, content: String) {
 		self.role = role
 		self.content = content
 	}

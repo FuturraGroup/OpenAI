@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'OpenAIKit'
-  s.version          = '1.0.3'
+  s.version          = '1.0.1'
   s.summary          = 'OpenAI is a community-maintained repository containing Swift implementation over OpenAI public API.'
 
   s.description      = <<-DESC
