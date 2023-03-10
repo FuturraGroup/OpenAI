@@ -83,8 +83,8 @@ public enum AIMessageRole: String, Codable {
 }
 
 public struct AIMessage: Codable {
-	let role: AIMessageRole
-	let content: String
+	public let role: AIMessageRole
+	public let content: String
 
 	public init(role: AIMessageRole, content: String) {
 		self.role = role
