@@ -77,8 +77,20 @@ public extension AIModelType {
 }
 
 public struct AIResponseModel: Codable {
+	public enum AIMessageRole: String, Codable {
+		case system
+		case user
+		case assistant
+	}
+
+	public struct AIMessage: Codable {
+		let role: AIMessageRole
+		let content: String
+	}
+
 	public struct Choice: Codable {
-		public let text: String
+		public var text: String? = nil
+		public var message: AIMessage? = nil
 		public let index: Int
 		public var logprobs: Int? = nil
 		public var finishReason: String? = nil
