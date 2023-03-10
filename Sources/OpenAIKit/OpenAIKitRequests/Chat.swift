@@ -22,7 +22,7 @@ public extension OpenAIKit {
 	                        user: String? = nil,
 	                        completion: @escaping (Result<AIResponseModel, Error>) -> Void)
 	{
-		let endpoint = OpenAIEndpoint.completions
+		let endpoint = OpenAIEndpoint.chatCompletions
 
 		var messages = previousMessages
 		messages.append(newMessage)

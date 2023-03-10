@@ -31,6 +31,8 @@ protocol Endpoint {
 enum OpenAIEndpoint {
 	case completions
 
+	case chatCompletions
+	
 	case edits
 
 	case dalleImage
@@ -41,6 +43,8 @@ extension OpenAIEndpoint: Endpoint {
 		switch self {
 		case .completions:
 			return "/v1/completions"
+		case .chatCompletions:
+			return "/v1/chat/completions"
 		case .edits:
 			return "/v1/edits"
 		case .dalleImage:
