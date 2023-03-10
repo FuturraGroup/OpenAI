@@ -76,18 +76,18 @@ public extension AIModelType {
 	}
 }
 
+public enum AIMessageRole: String, Codable {
+	case system
+	case user
+	case assistant
+}
+
+public struct AIMessage: Codable {
+	let role: AIMessageRole
+	let content: String
+}
+
 public struct AIResponseModel: Codable {
-	public enum AIMessageRole: String, Codable {
-		case system
-		case user
-		case assistant
-	}
-
-	public struct AIMessage: Codable {
-		let role: AIMessageRole
-		let content: String
-	}
-
 	public struct Choice: Codable {
 		public var text: String? = nil
 		public var message: AIMessage? = nil
