@@ -27,7 +27,7 @@ public extension OpenAIKit {
 		var messages = previousMessages
 		messages.append(newMessage)
 
-		let requestBody = ChatCompletionsModels(model: model, messages: messages, temperature: temperature, n: n, maxTokens: maxTokens, topP: topP, frequencyPenalty: frequencyPenalty, presencePenalty: presencePenalty, logprobs: logprobs, stop: stop, user: user)
+		let requestBody = ChatCompletionsRequest(model: model, messages: messages, temperature: temperature, n: n, maxTokens: maxTokens, topP: topP, frequencyPenalty: frequencyPenalty, presencePenalty: presencePenalty, logprobs: logprobs, stop: stop, user: user)
 
 		let requestData = try? jsonEncoder.encode(requestBody)
 

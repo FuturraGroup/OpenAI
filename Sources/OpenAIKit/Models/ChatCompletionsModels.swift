@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ChatCompletionsModels: Codable {
+public struct ChatCompletionsRequest: Codable {
 	public let model: AIModelType
 
 	public let messages: [AIMessage]
