@@ -15,6 +15,7 @@ public final class OpenAIKit {
 	
 	internal let jsonEncoder = JSONEncoder.aiEncoder
 	
+    /// Initialize `OpenAIKit` with your API Token wherever convenient in your project. Organization name is optional.
 	public init(apiToken: String, organization: String? = nil, timeoutInterval: TimeInterval = 60) {
 		self.apiToken = apiToken
 		self.organization = organization

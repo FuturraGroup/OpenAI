@@ -8,6 +8,13 @@
 import Foundation
 
 public extension OpenAIKit {
+    /// Given a prompt and/or an input image, the model will generate a new image.
+    ///
+    /// - Parameters:
+    ///   - prompt: The prompt to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.
+    ///   - size: The size of the generated images. Must be one of `size256`, `size512`, or `size1024`.
+    ///   - user: A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
+    ///   - n: How many completions to generate for each prompt.
 	func sendImagesRequest(prompt: String,
 	                       size: AIImageSize = .size1024,
 	                       user: String? = nil,

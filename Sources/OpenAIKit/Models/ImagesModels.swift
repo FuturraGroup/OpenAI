@@ -16,9 +16,13 @@ public extension AIImageSize {
 }
 
 public struct ImageRequest: Codable {
+    /// The prompt to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.
 	public var prompt: String
+    /// How many completions to generate for each prompt.
 	public var n: Int? = nil
+    /// The size of the generated images. Must be one of `size256`, `size512`, or `size1024`.
 	public var size: AIImageSize = .size1024
+    /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
 	public var user: String? = nil
 }
 
