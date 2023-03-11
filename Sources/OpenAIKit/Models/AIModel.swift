@@ -8,12 +8,13 @@
 import Foundation
 
 public enum AIModelType: RawRepresentable, Codable {
+    /// GPT-3.5 models can understand and generate natural language or code. Our most capable and cost effective model is gpt-3.5-turbo which is optimized for chat but works well for traditional completions tasks as well.
 	case gptV3_5(GPTv3_5Model)
-
+    /// GPT-3 models can understand and generate natural language. These models were superceded by the more powerful GPT-3.5 generation models. However, the original GPT-3 base models (`davinci`, `curie`, `ada`, and `babbage`) are current the only models that are available to fine-tune.
 	case gptV3(GPTv3Model)
-
+    /// The Codex models are descendants of our GPT-3 models that can understand and generate code. Their training data contains both natural language and billions of lines of public code from GitHub.
 	case codex(CodexModel)
-
+    /// The custom ID of the model to use.
 	case custom(String)
 
 	public var rawValue: String {
@@ -43,35 +44,39 @@ public enum AIModelType: RawRepresentable, Codable {
 }
 
 public extension AIModelType {
+    /// GPT-3.5 models can understand and generate natural language or code. Our most capable and cost effective model is gpt-3.5-turbo which is optimized for chat but works well for traditional completions tasks as well.
 	enum GPTv3_5Model: String {
+        /// Most capable GPT-3.5 model and optimized for chat at 1/10th the cost of text-davinci-003. Will be updated with our latest model iteration.
 		case gptTurbo = "gpt-3.5-turbo"
-
+        /// Can do any language task with better quality, longer output, and consistent instruction-following than the curie, babbage, or ada models. Also supports inserting completions within text.
 		case davinciText003 = "text-davinci-003"
-
+        /// Similar capabilities to text-davinci-003 but trained with supervised fine-tuning instead of reinforcement learning
 		case davinciText002 = "text-davinci-002"
-
+        /// Optimized for code-completion tasks
 		case davinciCode002 = "code-davinci-002"
 	}
-
+    /// GPT-3 models can understand and generate natural language. These models were superceded by the more powerful GPT-3.5 generation models. However, the original GPT-3 base models (`davinci`, `curie`, `ada`, and `babbage`) are current the only models that are available to fine-tune.
 	enum GPTv3Model: String {
+        /// Very capable, faster and lower cost than Davinci.
 		case curieText = "text-curie-001"
-
+        /// Capable of straightforward tasks, very fast, and lower cost.
 		case babbageText = "text-babbage-001"
-
+        /// Capable of very simple tasks, usually the fastest model in the GPT-3 series, and lowest cost.
 		case adaText = "text-ada-001"
-
+        /// Most capable GPT-3 model. Can do any task the other models can do, often with higher quality.
 		case davinci
-
+        /// Very capable, but faster and lower cost than Davinci.
 		case curie
-
+        /// Capable of straightforward tasks, very fast, and lower cost.
 		case babbage
-
+        /// Capable of very simple tasks, usually the fastest model in the GPT-3 series, and lowest cost.
 		case ada
 	}
-
+    /// The Codex models are descendants of our GPT-3 models that can understand and generate code. Their training data contains both natural language and billions of lines of public code from GitHub.
 	enum CodexModel: String {
+        /// Most capable Codex model. Particularly good at translating natural language to code. In addition to completing code, also supports inserting completions within code.
 		case davinciCode = "code-davinci-002"
-
+        /// Almost as capable as Davinci Codex, but slightly faster. This speed advantage may make it preferable for real-time applications.
 		case cushmanCode = "code-cushman-001"
 	}
 }
