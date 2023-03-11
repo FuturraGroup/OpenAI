@@ -13,7 +13,8 @@ let package = Package(
 	targets: [
 		.target(
 			name: "OpenAIKit",
-			dependencies: []),
+			dependencies: [],
+			path: "Sources"),
 		.testTarget(
 			name: "OpenAIKitTests",
 			dependencies: ["OpenAIKit"]),

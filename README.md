@@ -49,11 +49,11 @@ import OpenAIKit
 
 public let openAI = OpenAIKit(apiToken: apiToken, organization: organizationName)
 ```
+### Completions
 Create a call to the completions API, passing in a text prompt.
 
 ```swift
-openAI.sendCompletion(prompt: "Hello!", model: .gptV3_5(.gptTurbo), maxTokens: 2048) { [weak self] result in
-    
+openAI.sendCompletion(prompt: "Hello!", model: .gptV3_5(.davinciText003), maxTokens: 2048) { [weak self] result in
     switch result {
     case .success(let aiResult):
         DispatchQueue.main.async {
@@ -70,9 +70,9 @@ openAI.sendCompletion(prompt: "Hello!", model: .gptV3_5(.gptTurbo), maxTokens: 2
     }
 }
 ```
-Also supports async/await usage for all methods.
+Also supports async/await usage for all methods. Here is example.
 ```swift
-let result = await openAI.sendCompletion(prompt: "Hello!", model: .gptV3_5(.gptTurbo), maxTokens: 2048)
+let result = await openAI.sendCompletion(prompt: "Hello!", model: .gptV3_5(.davinciText003), maxTokens: 2048)
 
 switch result {
 case .success(let aiResult):
@@ -84,6 +84,28 @@ case .failure(let error):
  /// Hadle error actions
     print(error.localizedDescription)
 }
+```
+### Chat Completions
+Chat completions almost the same as completions, there only few differences:
+
+ - It can understand context with pathing previous chat messages ([read more](https://platform.openai.com/docs/guides/chat)).
+ - Response text located in message field of retrieved completion
+ - Supports **ONLY** *gpt-3.5-turbo* and *gpt-3.5-turbo-0301* models ([read more about models compatibility](https://platform.openai.com/docs/models/model-endpoint-compatability)).
+```swift
+openAI?.sendChatCompletion(newMessage: AIMessage(role: .user, content: prompt), previousMessages: [], model: .gptV3_5(.gptTurbo), maxTokens: 2048, n: 1, completion: { [weak self] result in in
+	DispatchQueue.main.async { self?.stopLoading() }
+	
+	switch result {
+	case .success(let aiResult):
+		// Handle result actions
+		if let text = aiResult.choices.first?.message?.content {
+			print(text)
+		}
+	case .failure(let error):
+		// Handle error actions
+		print(error.localizedDescription)
+	}
+})
 ```
 ### Generate Image
 

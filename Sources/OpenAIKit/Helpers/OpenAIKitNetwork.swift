@@ -14,8 +14,6 @@ import FoundationXML
 public enum OpenAINetworkError: Error {
 	case invalidURL
 	case invalidResponse
-	case requestFailed(Error)
-	case decodeFailed(Error)
 }
 
 public final class OpenAIKitNetwork {
@@ -41,7 +39,7 @@ public final class OpenAIKitNetwork {
 			
 		let task = URLSession.shared.dataTask(with: request) { data, response, error in
 			if let error = error {
-				completion(.failure(OpenAINetworkError.requestFailed(error)))
+				completion(.failure(error))
 				return
 			}
 				
@@ -51,7 +49,13 @@ public final class OpenAIKitNetwork {
 			}
 				
 			guard 200 ... 299 ~= response.statusCode else {
-				let error = OpenAINetworkError.requestFailed(NSError(domain: NSURLErrorDomain, code: response.statusCode, userInfo: nil))
+				var userInfo: [String: Any] = [:]
+				
+				if let decodedError = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+					userInfo = decodedError
+				}
+				
+				let error = NSError(domain: NSURLErrorDomain, code: response.statusCode, userInfo: userInfo)
 				completion(.failure(error))
 				return
 			}
@@ -61,7 +65,7 @@ public final class OpenAIKitNetwork {
 				let responseObj = try decoder.decode(ResponseType.self, from: data)
 				completion(.success(responseObj))
 			} catch {
-				completion(.failure(OpenAINetworkError.decodeFailed(error)))
+				completion(.failure(error))
 			}
 		}
 			

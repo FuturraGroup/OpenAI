@@ -44,14 +44,19 @@ extension ViewController {
 		textView.text = " "
 		
 		let prompt = textField.text ?? ""
+		/// You can put messages you send and recieved before for maka chat uderstand your context.
+		/// Be careful! There is limit of total tokens count. The total limit of tokens is 4096.
+		/// So if you requests maxTokens = 2048, total sum of tokens in newMessage + previousMessages must be 2048.
+		/// Number of tokens you can recieve from response model from field usage.
+		let previousMessages: [AIMessage] = []
 		
-		openAI.sendCompletion(prompt: prompt, model: .gptV3_5(.davinciText003), maxTokens: 2048) { [weak self] result in
+		openAI?.sendChatCompletion(newMessage: AIMessage(role: .user, content: prompt), previousMessages: previousMessages, model: .gptV3_5(.gptTurbo), maxTokens: 2048, n: 1, completion: { [weak self] result in in
 			DispatchQueue.main.async { self?.stopLoading() }
 			
 			switch result {
 			case .success(let aiResult):
 				DispatchQueue.main.async { [weak self] in
-					if let text = aiResult.choices.first?.text {
+					if let text = aiResult.choices.first?.message?.content {
 						self?.textView.text = text
 					}
 				}
@@ -62,6 +67,9 @@ extension ViewController {
 					self?.present(alert, animated: true)
 				}
 			}
+		})
+		
+		openAI.sendCompletion(prompt: prompt, model: .gptV3_5(.davinciText003), maxTokens: 2048) { [weak self] _ in
 		}
 	}
 }
