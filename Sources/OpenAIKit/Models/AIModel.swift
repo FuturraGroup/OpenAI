@@ -8,6 +8,8 @@
 import Foundation
 
 public enum AIModelType: RawRepresentable, Codable {
+    /// GPT-4 is a large multimodal model that can solve difficult problems with greater accuracy than any of our previous models, thanks to its broader general knowledge and advanced reasoning capabilities. Like `gpt-3.5-turbo`, GPT-4 is optimized for chat but works well for traditional completions tasks.
+    case gptV4(GPTv4Model)
     /// GPT-3.5 models can understand and generate natural language or code. Our most capable and cost effective model is gpt-3.5-turbo which is optimized for chat but works well for traditional completions tasks as well.
 	case gptV3_5(GPTv3_5Model)
     /// GPT-3 models can understand and generate natural language. These models were superceded by the more powerful GPT-3.5 generation models. However, the original GPT-3 base models (`davinci`, `curie`, `ada`, and `babbage`) are current the only models that are available to fine-tune.
@@ -19,6 +21,8 @@ public enum AIModelType: RawRepresentable, Codable {
 
 	public var rawValue: String {
 		switch self {
+        case .gptV4(let model):
+            return model.rawValue
 		case .gptV3_5(let model):
 			return model.rawValue
 		case .gptV3(let model):
@@ -31,7 +35,9 @@ public enum AIModelType: RawRepresentable, Codable {
 	}
 
 	public init?(rawValue: RawValue) {
-		if let model = GPTv3_5Model(rawValue: rawValue) {
+        if let model = GPTv4Model(rawValue: rawValue) {
+            self = .gptV4(model)
+        } else if let model = GPTv3_5Model(rawValue: rawValue) {
 			self = .gptV3_5(model)
 		} else if let model = GPTv3Model(rawValue: rawValue) {
 			self = .gptV3(model)
@@ -44,6 +50,13 @@ public enum AIModelType: RawRepresentable, Codable {
 }
 
 public extension AIModelType {
+    /// GPT-4 is a large multimodal model that can solve difficult problems with greater accuracy than any of our previous models, thanks to its broader general knowledge and advanced reasoning capabilities. Like `gpt-3.5-turbo`, GPT-4 is optimized for chat but works well for traditional completions tasks.
+    enum GPTv4Model: String {
+        /// More capable than any GPT-3.5 model, able to do more complex tasks, and optimized for chat. Will be updated with our latest model iteration.
+        case gpt4 = "gpt-4"
+        /// Same capabilities as the base `gpt-4` mode but with 4x the context length. Will be updated with our latest model iteration.
+        case gpt4_32k = "gpt-4-32k"
+    }
     /// GPT-3.5 models can understand and generate natural language or code. Our most capable and cost effective model is gpt-3.5-turbo which is optimized for chat but works well for traditional completions tasks as well.
 	enum GPTv3_5Model: String {
         /// Most capable GPT-3.5 model and optimized for chat at 1/10th the cost of text-davinci-003. Will be updated with our latest model iteration.
