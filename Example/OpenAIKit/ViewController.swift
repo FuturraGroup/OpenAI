@@ -49,8 +49,8 @@ extension ViewController {
 		/// So if you requests maxTokens = 2048, total sum of tokens in newMessage + previousMessages must be 2048.
 		/// Number of tokens you can recieve from response model from field usage.
 		let previousMessages: [AIMessage] = []
-		
-		openAI?.sendChatCompletion(newMessage: AIMessage(role: .user, content: prompt), previousMessages: previousMessages, model: .gptV3_5(.gptTurbo), maxTokens: 2048, n: 1, completion: { [weak self] result in in
+		/// Creates a completion for the chat message
+        openAI.sendChatCompletion(newMessage: AIMessage(role: .user, content: prompt), previousMessages: previousMessages, model: .gptV3_5(.gptTurbo), maxTokens: 2048, n: 1, completion: { [weak self] result in
 			DispatchQueue.main.async { self?.stopLoading() }
 			
 			switch result {
@@ -69,8 +69,9 @@ extension ViewController {
 			}
 		})
 		
-		openAI.sendCompletion(prompt: prompt, model: .gptV3_5(.davinciText003), maxTokens: 2048) { [weak self] _ in
-		}
+        /// Creates a completion for the provided prompt and parameters
+        openAI.sendCompletion(prompt: prompt, model: .gptV3_5(.davinciText003), maxTokens: 2048) { [weak self] result in
+        }
 	}
 }
 
