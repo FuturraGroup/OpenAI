@@ -92,7 +92,7 @@ Chat completions almost the same as completions, there only few differences:
  - Response text located in message field of retrieved completion
  - Supports **ONLY** *gpt-3.5-turbo* and *gpt-3.5-turbo-0301* models ([read more about models compatibility](https://platform.openai.com/docs/models/model-endpoint-compatability)).
 ```swift
-openAI?.sendChatCompletion(newMessage: AIMessage(role: .user, content: prompt), previousMessages: [], model: .gptV3_5(.gptTurbo), maxTokens: 2048, n: 1, completion: { [weak self] result in in
+openAI.sendChatCompletion(newMessage: AIMessage(role: .user, content: prompt), previousMessages: [], model: .gptV3_5(.gptTurbo), maxTokens: 2048, n: 1, completion: { [weak self] result in
 	DispatchQueue.main.async { self?.stopLoading() }
 	
 	switch result {
