@@ -13,11 +13,11 @@ import FoundationXML
 #endif
 
 public struct AIStreamResponse<ResponseType: Decodable> {
-	let stream: AIEventStream<ResponseType>
-	let message: ResponseType?
-	let data: Data?
-	var isFinished: Bool = false
-	var forceEnd: Bool = false
+	public let stream: AIEventStream<ResponseType>
+	public let message: ResponseType?
+	public let data: Data?
+	public var isFinished: Bool = false
+	public var forceEnd: Bool = false
 }
 
 public final class AIEventStream<ResponseType: Decodable>: NSObject, URLSessionDataDelegate {
@@ -39,7 +39,7 @@ public final class AIEventStream<ResponseType: Decodable>: NSObject, URLSessionD
 
 	public func startStream() {
 		guard session == nil else { return }
-		
+
 		let configurationHeaders = [
 			"Accept": "text/event-stream",
 			"Cache-Control": "no-cache"
