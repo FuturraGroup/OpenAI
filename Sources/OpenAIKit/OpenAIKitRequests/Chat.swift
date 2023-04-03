@@ -122,7 +122,7 @@ public extension OpenAIKit {
 
 		let headers = baseHeaders
 
-		Task(priority: .background) {
+		Task(priority: .userInitiated) {
 			do {
 				let asyncStream: AsyncThrowingStream<AIStreamResponse<AIResponseModel>, Error> = try await network.requestStream(endpoint.method, url: endpoint.urlPath, body: requestData, headers: headers)
 
