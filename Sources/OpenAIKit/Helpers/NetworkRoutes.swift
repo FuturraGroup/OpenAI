@@ -32,7 +32,7 @@ enum OpenAIEndpoint {
 	case completions
 
 	case chatCompletions
-	
+
 	case edits
 
 	case dalleImage

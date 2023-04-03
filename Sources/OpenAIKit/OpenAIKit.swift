@@ -7,6 +7,8 @@
 
 import Foundation
 
+@available(swift 5.5)
+@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 public final class OpenAIKit {
 	private let apiToken: String
 	private let organization: String?
@@ -15,7 +17,7 @@ public final class OpenAIKit {
 	
 	internal let jsonEncoder = JSONEncoder.aiEncoder
 	
-    /// Initialize `OpenAIKit` with your API Token wherever convenient in your project. Organization name is optional.
+	/// Initialize `OpenAIKit` with your API Token wherever convenient in your project. Organization name is optional.
 	public init(apiToken: String, organization: String? = nil, timeoutInterval: TimeInterval = 60) {
 		self.apiToken = apiToken
 		self.organization = organization
@@ -30,6 +32,8 @@ public final class OpenAIKit {
 	}
 }
 
+@available(swift 5.5)
+@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 extension OpenAIKit {
 	var baseHeaders: OpenAIHeaders {
 		var headers: OpenAIHeaders = [:]

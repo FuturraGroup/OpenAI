@@ -109,6 +109,41 @@ openAI.sendChatCompletion(newMessage: AIMessage(role: .user, content: prompt), p
 	}
 })
 ```
+### Stream
+You can retrieve response from OpenAI for Completions and Chat Completions in stream partial progress. Don't need to wait time when whole completion response will complete. You can handle and present results in live.
+
+Example call on Chat Completions:
+
+```swift
+openAI.sendStreamChatCompletion(newMessage: AIMessage(role: .user, content: "Hello!"), model: .gptV3_5(.gptTurbo), maxTokens: 2048) { result in
+	switch result {
+	case .success(let streamResult):
+		/// Hadle success response result
+		if let streamMessage = streamResult.message?.choices.first?.message {
+			print("Stream message: \(streamMessage)") //"\n\nHello there, how may I assist you today?"
+		}
+	case .failure(let error):
+		// Handle error actions
+		print(error.localizedDescription)
+	}
+}
+```
+
+You can also stop stream manually like this:
+```swift
+openAI.sendStreamChatCompletion(newMessage: AIMessage(role: .user, content: "Hello!"), model: .gptV3_5(.gptTurbo), maxTokens: 2048) { result in
+	switch result {
+	case .success(let streamResult):
+		/// Hadle success response result
+		
+		streamResult.stream.stopStream() /// Manually stop stream 
+	case .failure(let error):
+		// Handle error actions
+		print(error.localizedDescription)
+	}
+}
+```
+
 ### Generate Image
 
 [DALL·E](https://platform.openai.com/docs/models/dall-e) is a AI system that can create realistic images and art from a description in natural language. We currently support the ability, given a prommpt, to create a new image with a certain size, edit an existing image, or create variations of a user provided image.
