@@ -31,6 +31,8 @@ public final class AIEventStream<ResponseType: Decodable>: NSObject, URLSessionD
 
 	private var isStreamActive: Bool = false
 
+	private var fetchError: Error? = nil
+
 	init(request: URLRequest) {
 		self.request = request
 		self.operationQueue = OperationQueue()
@@ -73,6 +75,14 @@ public final class AIEventStream<ResponseType: Decodable>: NSObject, URLSessionD
 	public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
 		guard isStreamActive else { return }
 
+		if let response = (dataTask.response as? HTTPURLResponse), let decodedError = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+			guard 200 ... 299 ~= response.statusCode, decodedError["error"] != nil else {
+				let error = NSError(domain: NSURLErrorDomain, code: response.statusCode, userInfo: decodedError)
+				fetchError = error
+				return
+			}
+		}
+
 		let decoder = JSONDecoder.aiDecoder
 
 		let dataString = String(data: data, encoding: .utf8) ?? ""
@@ -91,11 +101,11 @@ public final class AIEventStream<ResponseType: Decodable>: NSObject, URLSessionD
 
 	public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
 		guard let responseStatusCode = (task.response as? HTTPURLResponse)?.statusCode else {
-			try? onCompleteCompletion?(nil, false, error as NSError?)
+			try? onCompleteCompletion?(nil, false, error ?? fetchError)
 			return
 		}
 
-		try? onCompleteCompletion?(responseStatusCode, false, nil)
+		try? onCompleteCompletion?(responseStatusCode, false, error ?? fetchError)
 	}
 
 	public func urlSession(_ session: URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest, completionHandler: @escaping (URLRequest?) -> Void) {

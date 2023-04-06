@@ -110,16 +110,8 @@ public extension OpenAIKit {
 
 		let headers = baseHeaders
 
-		Task(priority: .userInitiated) {
-			do {
-				let asyncStream: AsyncThrowingStream<AIStreamResponse<AIResponseModel>, Error> = try await network.requestStream(endpoint.method, url: endpoint.urlPath, body: requestData, headers: headers)
-
-				for try await result in asyncStream {
-					completion(.success(result))
-				}
-			} catch {
-				completion(.failure(error))
-			}
+		network.requestStream(endpoint.method, url: endpoint.urlPath, body: requestData, headers: headers) { (result: Result<AIStreamResponse<AIResponseModel>, Error>) in
+			completion(result)
 		}
 	}
 
@@ -135,12 +127,16 @@ public extension OpenAIKit {
 	                          presencePenalty: Double? = nil,
 	                          logprobs: Int? = nil,
 	                          stop: [String]? = nil,
-	                          user: String? = nil) async -> Result<AIStreamResponse<AIResponseModel>, Error>
+	                          user: String? = nil) async throws -> AsyncThrowingStream<AIStreamResponse<AIResponseModel>, Error>
 	{
-		return await withCheckedContinuation { continuation in
-			sendStreamCompletion(prompt: prompt, model: model, maxTokens: maxTokens, temperature: temperature, n: n, topP: topP, frequencyPenalty: frequencyPenalty, presencePenalty: presencePenalty, logprobs: logprobs, stop: stop, user: user) { result in
-				continuation.resume(returning: result)
-			}
-		}
+		let endpoint = OpenAIEndpoint.completions
+
+		let requestBody = CompletionsRequest(model: model, prompt: prompt, temperature: temperature, n: n, maxTokens: maxTokens, topP: topP, frequencyPenalty: frequencyPenalty, presencePenalty: presencePenalty, logprobs: logprobs, stop: stop, user: user, stream: true)
+
+		let requestData = try? jsonEncoder.encode(requestBody)
+
+		let headers = baseHeaders
+
+		return try await network.requestStream(endpoint.method, url: endpoint.urlPath, body: requestData, headers: headers)
 	}
 }
