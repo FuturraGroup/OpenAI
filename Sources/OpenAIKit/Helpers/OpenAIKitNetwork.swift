@@ -153,6 +153,10 @@ public final class OpenAIKitNetwork {
 				}
 
 				stream.startStream()
+                
+                continuation.onTermination = { @Sendable _ in
+                    stream.stopStream()
+                }
 			}
 		}
 	}
