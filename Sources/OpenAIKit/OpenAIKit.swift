@@ -48,4 +48,18 @@ extension OpenAIKit {
 		
 		return headers
 	}
+    
+    var baseMultipartHeaders: OpenAIHeaders {
+        var headers: OpenAIHeaders = [:]
+        
+        headers["Authorization"] = "Bearer \(apiToken)"
+        
+        if let organization {
+            headers["OpenAI-Organization"] = organization
+        }
+        
+        headers["content-type"] = "multipart/form-data"
+        
+        return headers
+    }
 }

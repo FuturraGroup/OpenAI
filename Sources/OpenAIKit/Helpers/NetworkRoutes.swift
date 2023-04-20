@@ -30,12 +30,10 @@ protocol Endpoint {
 
 enum OpenAIEndpoint {
 	case completions
-
 	case chatCompletions
-
 	case edits
-
 	case dalleImage
+    case dalleImageEdit
 }
 
 extension OpenAIEndpoint: Endpoint {
@@ -49,6 +47,8 @@ extension OpenAIEndpoint: Endpoint {
 			return "/v1/edits"
 		case .dalleImage:
 			return "/v1/images/generations"
+        case .dalleImageEdit:
+            return "/v1/images/edits"
 		}
 	}
 
