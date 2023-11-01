@@ -17,10 +17,13 @@ public final class OpenAIKit {
 	
 	internal let jsonEncoder = JSONEncoder.aiEncoder
 	
+	public let customOpenAIURL: String?
+	
 	/// Initialize `OpenAIKit` with your API Token wherever convenient in your project. Organization name is optional.
-	public init(apiToken: String, organization: String? = nil, timeoutInterval: TimeInterval = 60) {
+	public init(apiToken: String, organization: String? = nil, timeoutInterval: TimeInterval = 60, customOpenAIURL: String? = nil) {
 		self.apiToken = apiToken
 		self.organization = organization
+		self.customOpenAIURL = customOpenAIURL
 		
 		let configuration = URLSessionConfiguration.default
 		configuration.timeoutIntervalForRequest = timeoutInterval
@@ -49,17 +52,17 @@ extension OpenAIKit {
 		return headers
 	}
     
-    var baseMultipartHeaders: OpenAIHeaders {
-        var headers: OpenAIHeaders = [:]
+	var baseMultipartHeaders: OpenAIHeaders {
+		var headers: OpenAIHeaders = [:]
         
-        headers["Authorization"] = "Bearer \(apiToken)"
+		headers["Authorization"] = "Bearer \(apiToken)"
         
-        if let organization {
-            headers["OpenAI-Organization"] = organization
-        }
+		if let organization {
+			headers["OpenAI-Organization"] = organization
+		}
         
-        headers["content-type"] = "multipart/form-data"
+		headers["content-type"] = "multipart/form-data"
         
-        return headers
-    }
+		return headers
+	}
 }

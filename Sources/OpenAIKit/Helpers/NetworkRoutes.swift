@@ -21,11 +21,12 @@ enum OpenAIHTTPMethod: String {
 
 typealias OpenAIHeaders = [String: String]
 
+@available(swift 5.5)
+@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 protocol Endpoint {
 	var route: String { get }
 	var method: OpenAIHTTPMethod { get }
-	var baseURL: String { get }
-	var urlPath: String { get }
+	func urlPath(for aiKit: OpenAIKit) -> String
 }
 
 enum OpenAIEndpoint {
@@ -33,9 +34,11 @@ enum OpenAIEndpoint {
 	case chatCompletions
 	case edits
 	case dalleImage
-    case dalleImageEdit
+	case dalleImageEdit
 }
 
+@available(swift 5.5)
+@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 extension OpenAIEndpoint: Endpoint {
 	var route: String {
 		switch self {
@@ -47,8 +50,8 @@ extension OpenAIEndpoint: Endpoint {
 			return "/v1/edits"
 		case .dalleImage:
 			return "/v1/images/generations"
-        case .dalleImageEdit:
-            return "/v1/images/edits"
+		case .dalleImageEdit:
+			return "/v1/images/edits"
 		}
 	}
 
@@ -59,14 +62,14 @@ extension OpenAIEndpoint: Endpoint {
 		}
 	}
 
-	var baseURL: String {
+	private var baseURL: String {
 		switch self {
 		default:
 			return "https://api.openai.com"
 		}
 	}
 
-	var urlPath: String {
-		baseURL + route
+	func urlPath(for aiKit: OpenAIKit) -> String {
+		(aiKit.customOpenAIURL ?? baseURL) + route
 	}
 }

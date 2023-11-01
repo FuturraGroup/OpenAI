@@ -51,7 +51,7 @@ public extension OpenAIKit {
 
 		let headers = baseHeaders
 
-		network.request(endpoint.method, url: endpoint.urlPath, body: requestData, headers: headers, completion: completion)
+		network.request(endpoint.method, url: endpoint.urlPath(for: self), body: requestData, headers: headers, completion: completion)
 	}
 
 	@available(swift 5.5)
@@ -122,7 +122,7 @@ public extension OpenAIKit {
 
 		let headers = baseHeaders
 
-		network.requestStream(endpoint.method, url: endpoint.urlPath, body: requestData, headers: headers) { (result: Result<AIStreamResponse<AIResponseModel>, Error>) in
+		network.requestStream(endpoint.method, url: endpoint.urlPath(for: self), body: requestData, headers: headers) { (result: Result<AIStreamResponse<AIResponseModel>, Error>) in
 			completion(result)
 		}
 	}
@@ -153,6 +153,6 @@ public extension OpenAIKit {
 
 		let headers = baseHeaders
 
-		return try await network.requestStream(endpoint.method, url: endpoint.urlPath, body: requestData, headers: headers)
+		return try await network.requestStream(endpoint.method, url: endpoint.urlPath(for: self), body: requestData, headers: headers)
 	}
 }
