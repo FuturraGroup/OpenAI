@@ -12,15 +12,17 @@ import Foundation
 public final class OpenAIKit {
 	private let apiToken: String
 	private let organization: String?
+	private let baseURL: String?
 	
 	internal let network: OpenAIKitNetwork
 	
 	internal let jsonEncoder = JSONEncoder.aiEncoder
 	
 	/// Initialize `OpenAIKit` with your API Token wherever convenient in your project. Organization name is optional.
-	public init(apiToken: String, organization: String? = nil, timeoutInterval: TimeInterval = 60) {
+	public init(apiToken: String, organization: String? = nil, timeoutInterval: TimeInterval = 60, baseURL: String? = nil) {
 		self.apiToken = apiToken
 		self.organization = organization
+		self.baseURL = baseURL
 		
 		let configuration = URLSessionConfiguration.default
 		configuration.timeoutIntervalForRequest = timeoutInterval
@@ -29,6 +31,10 @@ public final class OpenAIKit {
 		let session = URLSession(configuration: configuration)
 		
 		network = OpenAIKitNetwork(session: session)
+	}
+
+	public var currentBaseURL: String {
+		return baseURL ?? "https://api.openai.com"
 	}
 }
 

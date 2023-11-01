@@ -32,7 +32,7 @@ public extension OpenAIKit {
 
 		let headers = baseHeaders
 
-		network.request(endpoint.method, url: endpoint.urlPath, body: requestData, headers: headers, completion: completion)
+		network.request(endpoint.method, url: currentBaseURL + endpoint.route, body: requestData, headers: headers, completion: completion)
 	}
 
 	@available(swift 5.5)
