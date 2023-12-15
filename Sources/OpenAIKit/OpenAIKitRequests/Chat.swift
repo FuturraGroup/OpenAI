@@ -26,27 +26,28 @@ public extension OpenAIKit {
 	///   - logprobs: Include the log probabilities on the `logprobs` most likely tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response. The maximum value for `logprobs` is 5.
 	///   - stop: Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
 	///   - user: A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
-	func sendChatCompletion(newMessage: AIMessage,
-	                        previousMessages: [AIMessage] = [],
-	                        model: AIModelType,
-	                        maxTokens: Int?,
-	                        temperature: Double = 1,
-	                        n: Int? = nil,
-	                        topP: Double? = nil,
-	                        frequencyPenalty: Double? = nil,
-	                        presencePenalty: Double? = nil,
-	                        logprobs: Int? = nil,
-	                        stop: [String]? = nil,
-                            responseFormat: ChatCompletionsRequest.ResponseFormat? = nil,
-	                        user: String? = nil,
-	                        completion: @escaping (Result<AIResponseModel, Error>) -> Void)
-	{
+	func sendChatCompletion(
+		newMessage: AIMessage,
+		previousMessages: [AIMessage] = [],
+		model: AIModelType,
+		maxTokens: Int?,
+		temperature: Double = 1,
+		n: Int? = nil,
+		topP: Double? = nil,
+		frequencyPenalty: Double? = nil,
+		presencePenalty: Double? = nil,
+		logprobs: Int? = nil,
+		stop: [String]? = nil,
+		responseFormat: ChatCompletionsRequest.ResponseFormat? = nil,
+		user: String? = nil,
+		completion: @escaping (Result<AIResponseModel, Error>) -> Void
+	) {
 		let endpoint = OpenAIEndpoint.chatCompletions
 
 		var messages = previousMessages
 		messages.append(newMessage)
 
-        let requestBody = ChatCompletionsRequest(model: model, messages: messages, temperature: temperature, n: n, maxTokens: maxTokens, topP: topP, frequencyPenalty: frequencyPenalty, presencePenalty: presencePenalty, logprobs: logprobs, responseFormat: responseFormat, stop: stop, user: user)
+		let requestBody = ChatCompletionsRequest(model: model, messages: messages, temperature: temperature, n: n, maxTokens: maxTokens, topP: topP, frequencyPenalty: frequencyPenalty, presencePenalty: presencePenalty, logprobs: logprobs, responseFormat: responseFormat, stop: stop, user: user)
 
 		let requestData = try? jsonEncoder.encode(requestBody)
 
@@ -58,36 +59,36 @@ public extension OpenAIKit {
 	@available(swift 5.5)
 	@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 	func sendChatCompletion(
-        newMessage: AIMessage,
-        previousMessages: [AIMessage] = [],
-        model: AIModelType,
-        maxTokens: Int?,
-        temperature: Double = 1,
-        n: Int? = nil,
-        topP: Double? = nil,
-        frequencyPenalty: Double? = nil,
-        presencePenalty: Double? = nil,
-        logprobs: Int? = nil,
-        stop: [String]? = nil,
-        responseFormat: ChatCompletionsRequest.ResponseFormat? = nil,
-        user: String? = nil
-    ) async -> Result<AIResponseModel, Error> {
+		newMessage: AIMessage,
+		previousMessages: [AIMessage] = [],
+		model: AIModelType,
+		maxTokens: Int?,
+		temperature: Double = 1,
+		n: Int? = nil,
+		topP: Double? = nil,
+		frequencyPenalty: Double? = nil,
+		presencePenalty: Double? = nil,
+		logprobs: Int? = nil,
+		stop: [String]? = nil,
+		responseFormat: ChatCompletionsRequest.ResponseFormat? = nil,
+		user: String? = nil
+	) async -> Result<AIResponseModel, Error> {
 		return await withCheckedContinuation { continuation in
-            sendChatCompletion(
-                newMessage: newMessage,
-                previousMessages: previousMessages,
-                model: model,
-                maxTokens: maxTokens,
-                temperature: temperature,
-                n: n,
-                topP: topP,
-                frequencyPenalty: frequencyPenalty,
-                presencePenalty: presencePenalty,
-                logprobs: logprobs,
-                stop: stop,
-                responseFormat: responseFormat,
-                user: user
-            ) { result in
+			sendChatCompletion(
+				newMessage: newMessage,
+				previousMessages: previousMessages,
+				model: model,
+				maxTokens: maxTokens,
+				temperature: temperature,
+				n: n,
+				topP: topP,
+				frequencyPenalty: frequencyPenalty,
+				presencePenalty: presencePenalty,
+				logprobs: logprobs,
+				stop: stop,
+				responseFormat: responseFormat,
+				user: user
+			) { result in
 				continuation.resume(returning: result)
 			}
 		}
@@ -114,20 +115,21 @@ public extension OpenAIKit {
 	///   - logprobs: Include the log probabilities on the `logprobs` most likely tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response. The maximum value for `logprobs` is 5.
 	///   - stop: Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
 	///   - user: A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
-	func sendStreamChatCompletion(newMessage: AIMessage,
-	                              previousMessages: [AIMessage] = [],
-	                              model: AIModelType,
-	                              maxTokens: Int?,
-	                              temperature: Double = 1,
-	                              n: Int? = nil,
-	                              topP: Double? = nil,
-	                              frequencyPenalty: Double? = nil,
-	                              presencePenalty: Double? = nil,
-	                              logprobs: Int? = nil,
-	                              stop: [String]? = nil,
-	                              user: String? = nil,
-	                              completion: @escaping (Result<AIStreamResponse<AIResponseModel>, Error>) -> Void)
-	{
+	func sendStreamChatCompletion(
+		newMessage: AIMessage,
+		previousMessages: [AIMessage] = [],
+		model: AIModelType,
+		maxTokens: Int?,
+		temperature: Double = 1,
+		n: Int? = nil,
+		topP: Double? = nil,
+		frequencyPenalty: Double? = nil,
+		presencePenalty: Double? = nil,
+		logprobs: Int? = nil,
+		stop: [String]? = nil,
+		user: String? = nil,
+		completion: @escaping (Result<AIStreamResponse<AIResponseModel>, Error>) -> Void
+	) {
 		let endpoint = OpenAIEndpoint.chatCompletions
 
 		var messages = previousMessages
@@ -146,19 +148,20 @@ public extension OpenAIKit {
 
 	@available(swift 5.5)
 	@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-	func sendStreamChatCompletion(newMessage: AIMessage,
-	                              previousMessages: [AIMessage] = [],
-	                              model: AIModelType,
-	                              maxTokens: Int?,
-	                              temperature: Double = 1,
-	                              n: Int? = nil,
-	                              topP: Double? = nil,
-	                              frequencyPenalty: Double? = nil,
-	                              presencePenalty: Double? = nil,
-	                              logprobs: Int? = nil,
-	                              stop: [String]? = nil,
-	                              user: String? = nil) async throws -> AsyncThrowingStream<AIStreamResponse<AIResponseModel>, Error>
-	{
+	func sendStreamChatCompletion(
+		newMessage: AIMessage,
+		previousMessages: [AIMessage] = [],
+		model: AIModelType,
+		maxTokens: Int?,
+		temperature: Double = 1,
+		n: Int? = nil,
+		topP: Double? = nil,
+		frequencyPenalty: Double? = nil,
+		presencePenalty: Double? = nil,
+		logprobs: Int? = nil,
+		stop: [String]? = nil,
+		user: String? = nil
+	) async throws -> AsyncThrowingStream<AIStreamResponse<AIResponseModel>, Error> {
 		let endpoint = OpenAIEndpoint.chatCompletions
 
 		var messages = previousMessages

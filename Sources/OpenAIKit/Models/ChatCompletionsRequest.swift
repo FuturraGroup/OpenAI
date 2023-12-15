@@ -26,27 +26,28 @@ public struct ChatCompletionsRequest: Codable {
 	public var presencePenalty: Double? = nil
 	/// Include the log probabilities on the `logprobs` most likely tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response. The maximum value for `logprobs` is 5.
 	public var logprobs: Int? = nil
-    /// An object specifying the format that the model must output.
-    /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
-    /// is valid JSON.
-    /// **Important:** when using JSON mode, you must also instruct the model to produce JSON yourself via a system or
-    /// user message. Without this, the model may generate an unending stream of whitespace until the generation reaches
-    /// the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content
-    /// may be partially cut off if finish_reason="length", which indicates the generation exceeded max_tokens or the
-    /// conversation exceeded the max context length.
-    public var responseFormat: ResponseFormat?
+	/// An object specifying the format that the model must output.
+	/// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+	/// is valid JSON.
+	/// **Important:** when using JSON mode, you must also instruct the model to produce JSON yourself via a system or
+	/// user message. Without this, the model may generate an unending stream of whitespace until the generation reaches
+	/// the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content
+	/// may be partially cut off if finish_reason="length", which indicates the generation exceeded max_tokens or the
+	/// conversation exceeded the max context length.
+	public var responseFormat: ResponseFormat?
 	/// Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
 	public var stop: [String]? = nil
 	/// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
 	public var user: String? = nil
 	/// Whether to stream back partial progress. If set, tokens will be sent as data-only server-sent events as they become available
 	public var stream: Bool = false
-    public struct ResponseFormat: Codable {
-        internal var type: FormatType?
-        internal enum FormatType: String, Codable {
-            case text = "text", jsonObject = "json_object"
-        }
-        public static let json = ResponseFormat(type: .jsonObject)
-        public static let text = ResponseFormat(type: .text)
-    }
+	public struct ResponseFormat: Codable {
+		internal var type: FormatType?
+		internal enum FormatType: String, Codable {
+			case text, jsonObject = "json_object"
+		}
+
+		public static let json = ResponseFormat(type: .jsonObject)
+		public static let text = ResponseFormat(type: .text)
+	}
 }

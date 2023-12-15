@@ -67,12 +67,11 @@ final class OpenAIKitTests: XCTestCase {
 				}
 			case .failure(let error):
 				print(error.localizedDescription)
-				XCTAssertFalse(true)
+				expectation.fulfill()
 			}
 		})
 
 		wait(for: [expectation], timeout: 300)
-
 		XCTAssertFalse(resultText.isEmpty)
 	}
 
@@ -92,7 +91,29 @@ final class OpenAIKitTests: XCTestCase {
 				}
 			case .failure(let error):
 				print(error.localizedDescription)
-				XCTAssertFalse(true)
+				expectation.fulfill()
+			}
+		}
+
+		wait(for: [expectation], timeout: 300)
+		XCTAssertFalse(resultText.isEmpty)
+	}
+
+	func testChatResponseFormatCompletions() {
+		let expectation = XCTestExpectation(description: "Async operation completes")
+
+		var resultText = ""
+
+		openAI?.sendChatCompletion(newMessage: AIMessage(role: .user, content: "Write a 100-word essay about the earth"), previousMessages: [AIMessage(role: .system, content: "You are a helpful assistant designed to output JSON.")], model: .custom("gpt-3.5-turbo-1106"), maxTokens: 300, temperature: 0.7, responseFormat: .json) { result in
+
+			switch result {
+			case .success(let streamResult):
+				resultText += streamResult.choices.first?.message?.content ?? ""
+
+				expectation.fulfill()
+			case .failure(let error):
+				print(error.localizedDescription)
+				expectation.fulfill()
 			}
 		}
 
