@@ -37,6 +37,7 @@ public extension OpenAIKit {
 	                        presencePenalty: Double? = nil,
 	                        logprobs: Int? = nil,
 	                        stop: [String]? = nil,
+                            responseFormat: ChatCompletionsRequest.ResponseFormat? = nil,
 	                        user: String? = nil,
 	                        completion: @escaping (Result<AIResponseModel, Error>) -> Void)
 	{
@@ -45,7 +46,7 @@ public extension OpenAIKit {
 		var messages = previousMessages
 		messages.append(newMessage)
 
-		let requestBody = ChatCompletionsRequest(model: model, messages: messages, temperature: temperature, n: n, maxTokens: maxTokens, topP: topP, frequencyPenalty: frequencyPenalty, presencePenalty: presencePenalty, logprobs: logprobs, stop: stop, user: user)
+        let requestBody = ChatCompletionsRequest(model: model, messages: messages, temperature: temperature, n: n, maxTokens: maxTokens, topP: topP, frequencyPenalty: frequencyPenalty, presencePenalty: presencePenalty, logprobs: logprobs, responseFormat: responseFormat, stop: stop, user: user)
 
 		let requestData = try? jsonEncoder.encode(requestBody)
 
@@ -56,21 +57,37 @@ public extension OpenAIKit {
 
 	@available(swift 5.5)
 	@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-	func sendChatCompletion(newMessage: AIMessage,
-	                        previousMessages: [AIMessage] = [],
-	                        model: AIModelType,
-	                        maxTokens: Int?,
-	                        temperature: Double = 1,
-	                        n: Int? = nil,
-	                        topP: Double? = nil,
-	                        frequencyPenalty: Double? = nil,
-	                        presencePenalty: Double? = nil,
-	                        logprobs: Int? = nil,
-	                        stop: [String]? = nil,
-	                        user: String? = nil) async -> Result<AIResponseModel, Error>
-	{
+	func sendChatCompletion(
+        newMessage: AIMessage,
+        previousMessages: [AIMessage] = [],
+        model: AIModelType,
+        maxTokens: Int?,
+        temperature: Double = 1,
+        n: Int? = nil,
+        topP: Double? = nil,
+        frequencyPenalty: Double? = nil,
+        presencePenalty: Double? = nil,
+        logprobs: Int? = nil,
+        stop: [String]? = nil,
+        responseFormat: ChatCompletionsRequest.ResponseFormat? = nil,
+        user: String? = nil
+    ) async -> Result<AIResponseModel, Error> {
 		return await withCheckedContinuation { continuation in
-			sendChatCompletion(newMessage: newMessage, previousMessages: previousMessages, model: model, maxTokens: maxTokens, temperature: temperature, n: n, topP: topP, frequencyPenalty: frequencyPenalty, presencePenalty: presencePenalty, logprobs: logprobs, stop: stop, user: user) { result in
+            sendChatCompletion(
+                newMessage: newMessage,
+                previousMessages: previousMessages,
+                model: model,
+                maxTokens: maxTokens,
+                temperature: temperature,
+                n: n,
+                topP: topP,
+                frequencyPenalty: frequencyPenalty,
+                presencePenalty: presencePenalty,
+                logprobs: logprobs,
+                stop: stop,
+                responseFormat: responseFormat,
+                user: user
+            ) { result in
 				continuation.resume(returning: result)
 			}
 		}
