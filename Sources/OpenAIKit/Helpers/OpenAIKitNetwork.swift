@@ -24,6 +24,8 @@ public enum OpenAINetworkError: Error {
 public final class OpenAIKitNetwork {
 	private let session: URLSession
 
+	private var activeStreams: [NSObject] = []
+
 	init(session: URLSession = URLSession.shared) {
 		self.session = session
 	}
@@ -96,16 +98,19 @@ public final class OpenAIKitNetwork {
 			request.addValue(value, forHTTPHeaderField: key)
 		}
 
-		let stream = AIEventStream<ResponseType>(request: request)
 		var streamState = StreamTaskState()
+
+		let stream = AIEventStream<ResponseType>(request: request)
+		activeStreams.append(stream)
 
 		stream.onMessage { data, message in
 			completion(.success(AIStreamResponse(stream: stream, message: message, data: data, isFinished: streamState.isStreamFinished, forceEnd: streamState.isStreamForceStop)))
 		}
 
-		stream.onComplete { _, forceEnd, error in
+		stream.onComplete { [weak self] _, forceEnd, error in
 			if let error {
 				completion(.failure(error))
+				self?.terminateStream(stream)
 				return
 			}
 
@@ -113,6 +118,8 @@ public final class OpenAIKitNetwork {
 			streamState.isStreamForceStop = forceEnd
 
 			completion(.success(AIStreamResponse(stream: stream, message: nil, data: nil, isFinished: streamState.isStreamFinished, forceEnd: streamState.isStreamForceStop)))
+
+			self?.terminateStream(stream)
 		}
 
 		stream.startStream()
@@ -132,6 +139,7 @@ public final class OpenAIKitNetwork {
 		}
 
 		let stream = AIEventStream<ResponseType>(request: request)
+		activeStreams.append(stream)
 
 		return AsyncThrowingStream<AIStreamResponse<ResponseType>, Error> { continuation in
 			Task(priority: .userInitiated) {
@@ -145,7 +153,10 @@ public final class OpenAIKitNetwork {
 					streamState.isStreamFinished = true
 					streamState.isStreamForceStop = forceEnd
 
-					if let error { throw error }
+					if let error {
+						continuation.finish(throwing: error)
+						return
+					}
 
 					continuation.yield(AIStreamResponse(stream: stream, message: nil, data: nil, isFinished: true, forceEnd: forceEnd))
 
@@ -153,11 +164,16 @@ public final class OpenAIKitNetwork {
 				}
 
 				stream.startStream()
-                
-                continuation.onTermination = { @Sendable _ in
-                    stream.stopStream()
-                }
+
+				continuation.onTermination = { @Sendable [weak self] _ in
+					self?.terminateStream(stream)
+				}
 			}
 		}
+	}
+
+	private func terminateStream<ResponseType: Decodable>(_ stream: AIEventStream<ResponseType>) {
+		stream.stopStream()
+		activeStreams.removeAll { $0 == stream }
 	}
 }

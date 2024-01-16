@@ -57,9 +57,12 @@ public final class AIEventStream<ResponseType: Decodable>: NSObject, URLSessionD
 	}
 
 	public func stopStream() {
+		let oldIsStreamActive = isStreamActive
 		isStreamActive = false
 		session?.invalidateAndCancel()
 		operationQueue.cancelAllOperations()
+		session = nil
+		guard oldIsStreamActive != isStreamActive else { return }
 		try? onCompleteCompletion?(0, true, nil)
 	}
 
@@ -105,7 +108,7 @@ public final class AIEventStream<ResponseType: Decodable>: NSObject, URLSessionD
 			return
 		}
 
-		try? onCompleteCompletion?(responseStatusCode, false, error ?? fetchError)
+		try? onCompleteCompletion?(responseStatusCode, false, isStreamActive ? error ?? fetchError : nil)
 	}
 
 	public func urlSession(_ session: URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest, completionHandler: @escaping (URLRequest?) -> Void) {
