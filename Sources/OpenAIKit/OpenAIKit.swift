@@ -39,7 +39,7 @@ public final class OpenAIKit: NSObject {
 		
 		let session = URLSession(configuration: configuration, delegate: delegate, delegateQueue: nil)
 		
-		self.network = OpenAIKitNetwork(session: session)
+		self.network = OpenAIKitNetwork(session: session, sslDelegate: delegate)
 		self.sslDelegate = delegate
 	}
 }
