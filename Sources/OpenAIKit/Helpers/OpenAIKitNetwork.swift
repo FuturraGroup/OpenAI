@@ -100,7 +100,7 @@ public final class OpenAIKitNetwork {
 
 		var streamState = StreamTaskState()
 
-		let stream = AIEventStream<ResponseType>(request: request)
+		let stream = AIEventStream<ResponseType>(request: request, sslDelegate: session.delegate as? OpenAISSLDelegate)
 		activeStreams.append(stream)
 
 		stream.onMessage { data, message in
