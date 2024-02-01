@@ -9,29 +9,38 @@ import Foundation
 
 @available(swift 5.5)
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-public final class OpenAIKit {
+public final class OpenAIKit: NSObject {
 	private let apiToken: String
 	private let organization: String?
 	
-	internal let network: OpenAIKitNetwork
+	internal var network = OpenAIKitNetwork(session: URLSession(configuration: URLSessionConfiguration.default))
 	
 	internal let jsonEncoder = JSONEncoder.aiEncoder
 	
 	public let customOpenAIURL: String?
 	
+	private let sslCerificatePath: String?
+	
+	private weak var sslDelegate: OpenAISSLDelegate?
+	
 	/// Initialize `OpenAIKit` with your API Token wherever convenient in your project. Organization name is optional.
-	public init(apiToken: String, organization: String? = nil, timeoutInterval: TimeInterval = 60, customOpenAIURL: String? = nil) {
+	public init(apiToken: String, organization: String? = nil, timeoutInterval: TimeInterval = 60, customOpenAIURL: String? = nil, sslCerificatePath: String? = nil) {
 		self.apiToken = apiToken
 		self.organization = organization
 		self.customOpenAIURL = customOpenAIURL
+		self.sslCerificatePath = sslCerificatePath
+		
+		let delegate = OpenAISSLDelegate(sslCerificatePath: sslCerificatePath)
 		
 		let configuration = URLSessionConfiguration.default
 		configuration.timeoutIntervalForRequest = timeoutInterval
 		configuration.timeoutIntervalForResource = timeoutInterval
-
-		let session = URLSession(configuration: configuration)
+		configuration.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
 		
-		network = OpenAIKitNetwork(session: session)
+		let session = URLSession(configuration: configuration, delegate: delegate, delegateQueue: nil)
+		
+		self.network = OpenAIKitNetwork(session: session)
+		self.sslDelegate = delegate
 	}
 }
 
