@@ -18,7 +18,7 @@ OpenAI is a community-maintained repository containing Swift implementation over
 	- [Initialization](#initialization)
 		- [Additional Initialization parameters](#additional-initialization-parameters)
 	- [SSL Handshake](#ssl-handshake)
-		- [What is this and why you may use it?]()
+		- [What is this and why you may use it?](#what-is-this-and-why-you-may-use-it)
 		- [The advantages of this solution](#the-advantages-of-this-solution)
 		- [How to use SSL Handshake](#how-to-use-ssl-handshake)
     - [Completions](#completions)
