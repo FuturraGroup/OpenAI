@@ -7,6 +7,8 @@
 
 import Foundation
 
+@available(swift 5.5)
+@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 final class OpenAISSLDelegate: NSObject {
 	private let sslCerificatePath: String?
 
@@ -15,6 +17,8 @@ final class OpenAISSLDelegate: NSObject {
 	}
 }
 
+@available(swift 5.5)
+@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 extension OpenAISSLDelegate: URLSessionDelegate {
 	public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
 		guard let serverTrust = challenge.protectionSpace.serverTrust, let certificate = SecTrustGetCertificateAtIndex(serverTrust, 0) else {
