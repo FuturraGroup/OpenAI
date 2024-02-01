@@ -23,11 +23,12 @@ public enum OpenAINetworkError: Error {
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 public final class OpenAIKitNetwork {
 	private let session: URLSession
-
+	private weak var sslDelegate: OpenAISSLDelegate?
 	private var activeStreams: [NSObject] = []
 
-	init(session: URLSession = URLSession.shared) {
+	init(session: URLSession = URLSession.shared, sslDelegate: OpenAISSLDelegate? = nil) {
 		self.session = session
+		self.sslDelegate = sslDelegate
 	}
 
 	func request<ResponseType: Decodable>(_ method: OpenAIHTTPMethod, url: String, body: Data? = nil, headers: OpenAIHeaders? = nil, completion: @escaping (Result<ResponseType, Error>) -> Void) {
@@ -100,7 +101,7 @@ public final class OpenAIKitNetwork {
 
 		var streamState = StreamTaskState()
 
-		let stream = AIEventStream<ResponseType>(request: request, sslDelegate: session.delegate as? OpenAISSLDelegate)
+		let stream = AIEventStream<ResponseType>(request: request, sslDelegate: sslDelegate)
 		activeStreams.append(stream)
 
 		stream.onMessage { data, message in
@@ -138,7 +139,7 @@ public final class OpenAIKitNetwork {
 			request.addValue(value, forHTTPHeaderField: key)
 		}
 
-		let stream = AIEventStream<ResponseType>(request: request, sslDelegate: session.delegate as? OpenAISSLDelegate)
+		let stream = AIEventStream<ResponseType>(request: request, sslDelegate: sslDelegate)
 		activeStreams.append(stream)
 
 		return AsyncThrowingStream<AIStreamResponse<ResponseType>, Error> { continuation in

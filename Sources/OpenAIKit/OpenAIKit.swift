@@ -21,7 +21,7 @@ public final class OpenAIKit: NSObject {
 	
 	private let sslCerificatePath: String?
 	
-	private weak var sslDelegate: OpenAISSLDelegate?
+	private(set) weak var sslDelegate: OpenAISSLDelegate?
 	
 	/// Initialize `OpenAIKit` with your API Token wherever convenient in your project. Organization name is optional.
 	public init(apiToken: String, organization: String? = nil, timeoutInterval: TimeInterval = 60, customOpenAIURL: String? = nil, sslCerificatePath: String? = nil) {
