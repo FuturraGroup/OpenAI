@@ -242,6 +242,7 @@ openAI.sendStreamChatCompletion(newMessage: AIMessage(role: .user, content: "Hel
 #### JSON mode
 
 A common way to use Chat Completions is to instruct the model to always return a JSON object that makes sense for your use case, by specifying this in the system message. 
+To prevent these errors and improve model performance, when calling gpt-4-turbo-preview or gpt-3.5-turbo-1106, you can set response_format to { "type": "json_object" } to enable JSON mode. When JSON mode is enabled, the model is constrained to only generate strings that parse into valid JSON object. More details in [OpenAI JSON mode](https://platform.openai.com/docs/guides/text-generation/json-mode) documentation.
 
 You can use it in `sendChatCompletion` or `sendStreamChatCompletion ` methods. Path optional parametr `responseFormat` to any of this methods
 
