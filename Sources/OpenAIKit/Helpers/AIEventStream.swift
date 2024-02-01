@@ -12,6 +12,8 @@ import FoundationNetworking
 import FoundationXML
 #endif
 
+@available(swift 5.5)
+@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 public struct AIStreamResponse<ResponseType: Decodable> {
 	public let stream: AIEventStream<ResponseType>
 	public let message: ResponseType?
@@ -20,6 +22,8 @@ public struct AIStreamResponse<ResponseType: Decodable> {
 	public var forceEnd: Bool = false
 }
 
+@available(swift 5.5)
+@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 public final class AIEventStream<ResponseType: Decodable>: NSObject, URLSessionDataDelegate {
 	private let request: URLRequest
 	private var session: URLSession?
@@ -33,9 +37,11 @@ public final class AIEventStream<ResponseType: Decodable>: NSObject, URLSessionD
 
 	private var fetchError: Error? = nil
 
-	init(request: URLRequest) {
+	private weak var sslDelegate: OpenAISSLDelegate?
+	init(request: URLRequest, sslDelegate: OpenAISSLDelegate?) {
 		self.request = request
 		self.operationQueue = OperationQueue()
+		self.sslDelegate = sslDelegate
 		operationQueue.maxConcurrentOperationCount = 1
 	}
 
@@ -114,8 +120,14 @@ public final class AIEventStream<ResponseType: Decodable>: NSObject, URLSessionD
 	public func urlSession(_ session: URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest, completionHandler: @escaping (URLRequest?) -> Void) {
 		completionHandler(request)
 	}
+
+	public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+		sslDelegate?.urlSession(session, didReceive: challenge, completionHandler: completionHandler)
+	}
 }
 
+@available(swift 5.5)
+@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 public extension AIEventStream {
 	func onStart(_ onStartCompletion: @escaping (() -> Void)) {
 		self.onStartCompletion = onStartCompletion

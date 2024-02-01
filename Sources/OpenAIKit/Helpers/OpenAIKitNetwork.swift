@@ -138,7 +138,7 @@ public final class OpenAIKitNetwork {
 			request.addValue(value, forHTTPHeaderField: key)
 		}
 
-		let stream = AIEventStream<ResponseType>(request: request)
+		let stream = AIEventStream<ResponseType>(request: request, sslDelegate: session.delegate as? OpenAISSLDelegate)
 		activeStreams.append(stream)
 
 		return AsyncThrowingStream<AIStreamResponse<ResponseType>, Error> { continuation in
